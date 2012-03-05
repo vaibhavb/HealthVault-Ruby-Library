@@ -9,6 +9,18 @@ Easiest way to start
 ---------------------
 Using Ruby 1.9 run the sample \examples\helloworld-vocab\getvocab.rb, and use the code in that application for your work.
 
+Sample run
+~~~~~~~~~~
+HealthVault-Ruby-Library\examples\helloworld-vocab>ruby getvocab.rb
+authenticated application...
+got thing-type vocabulary...
+<response><status><code>0</code></status><wc:info xmlns:wc="urn:com.microsoft.wc
+.methods.response.GetVocabulary"><vocabulary xml:lang="en"><name>thing-types</na
+me><family>wc</family><version>1</version><code-item><code-value>3e730686-781f-4
+616-aa0d-817bba8eb141</code-value><display-text/></code-item><code-item><code-va
+lue>adaf49ad-8e10-49f8-9783-174819e97051</code-value><display-text/></code-item>
+....
+
 
 Directory Structure 
 ------------------
