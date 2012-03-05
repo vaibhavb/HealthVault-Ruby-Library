@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSpy v2008 (http://www.altova.com) by Eric Gunnerson (MICROSOFT CORPORATION) -->
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<schema xmlns:wc-thing="urn:com.microsoft.wc.thing" xmlns:wc-types="urn:com.microsoft.wc.types" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:this="urn:com.microsoft.wc.methods.DisassociateAlternateId" targetNamespace="urn:com.microsoft.wc.methods.DisassociateAlternateId">
+	<!--
+
+        METHOD-DISASSOCIATEALTERNATEID.XSD
+        Microsoft HealthVault
+
+        Platform API: Info schema for DisassociateAlternateId method
+
+    -->
+	<import namespace="urn:com.microsoft.wc.types" schemaLocation="types.xsd"/>
+	<import namespace="urn:com.microsoft.wc.thing" schemaLocation="thing.xsd"/>
+	<annotation>
+		<documentation>
+			<summary>
+                Disassociate an alternate id with a person and record. 
+            </summary>
+			<remarks>
+				This method disassociates an alternate id.
+            </remarks>
+			<errors>
+                                <error id="ALTERNATE_ID_NOT_FOUND">
+                    If the alternate id has not been associated with a person and record.
+                                </error>
+			</errors>
+		</documentation>
+	</annotation>
+
+	<!-- DisassociateAlternateId - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<element name="info">
+		<complexType>
+			<annotation>
+				<documentation>
+					<summary>
+                        The element of the request that contains the method
+                        specific parameters.
+                    </summary>
+					<remarks>
+                        All requests contain the info element to pass parameters
+                        that are specific to each method. If the method does not
+                        define an info element, the method does not take any
+                        parameters.
+                    </remarks>
+				</documentation>
+			</annotation>
+			<sequence>
+				<element name="alternate-id" type="wc-types:string255nw">
+					<annotation>
+						<documentation>
+							<summary>
+                               The alternate id to disassociate.
+                            </summary>
+						</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

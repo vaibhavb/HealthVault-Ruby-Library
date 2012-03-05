@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<schema
+    targetNamespace="urn:com.microsoft.wc.methods.UpdateEventSubscription"
+    xmlns:wc-subscription="urn:com.microsoft.wc.subscription"
+    xmlns="http://www.w3.org/2001/XMLSchema" >
+
+    <!--
+
+        METHOD-UPDATEEVENTSUBSCRIPTION.XSD
+        Microsoft HealthVault
+
+        Platform API: Info schema for UpdateEventSubscription method
+
+    -->
+  
+    <import
+       namespace="urn:com.microsoft.wc.subscription"
+       schemaLocation="subscription.xsd" />
+
+    <annotation>
+        <documentation>
+            <summary>
+                Updates an event subscription for the calling application.
+            </summary>
+            <method-visibility>Public</method-visibility>
+            <version>1</version>
+            <errors>
+                <error id="SUBSCRIPTION_NOT_FOUND">
+                    If the subscription cannot be found for supplied
+                    subscription identifier.
+                </error>
+                <error id="SUBSCRIPTION_INVALID">
+                    If the subscription contains invalid data.
+                </error>
+            </errors>
+        </documentation>
+    </annotation>
+
+    <element name="info">
+        <complexType>
+            <sequence>
+                <element name="subscription" type="wc-subscription:Subscription">
+                    <annotation>
+                        <documentation>
+                            <summary>
+                                The subscription to update.
+                            </summary>
+                            <remarks>
+                            </remarks>
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+  
+</schema>

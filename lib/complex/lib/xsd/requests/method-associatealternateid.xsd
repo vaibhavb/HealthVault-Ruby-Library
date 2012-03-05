@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<schema xmlns:wc-thing="urn:com.microsoft.wc.thing" xmlns:wc-types="urn:com.microsoft.wc.types" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:this="urn:com.microsoft.wc.methods.AssociateAlternateId" targetNamespace="urn:com.microsoft.wc.methods.AssociateAlternateId">
+	<!--
+
+        METHOD-ASSOCIATEALTERNATEID.XSD
+        Microsoft HealthVault
+
+        Platform API: Info schema for AssociateAlternateId method
+
+    -->
+	<import namespace="urn:com.microsoft.wc.types" schemaLocation="types.xsd"/>
+	<import namespace="urn:com.microsoft.wc.thing" schemaLocation="thing.xsd"/>
+	<annotation>
+		<documentation>
+			<summary>
+                Associate an alternate id with a person and record. 
+            </summary>
+			<remarks>
+				This method associates an alternate id with a person and record.
+            </remarks>
+			<errors>
+                                <error id="ALTERNATE_IDS_LIMIT_EXCEEDED">
+                    If the account already has the maximum allowable number
+                    of alternate ids.
+                                </error>
+                                <error id="DUPLICATE_ALTERNATE_ID">
+                    If the application has already associated this alternate id with a person and record.
+                                </error>
+			</errors>
+		</documentation>
+	</annotation>
+	<!-- AssociateAlternateId - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+	<element name="info">
+		<complexType>
+			<annotation>
+				<documentation>
+					<summary>
+                        The element of the request that contains the method
+                        specific parameters.
+                    </summary>
+					<remarks>
+                        All requests contain the info element to pass parameters
+                        that are specific to each method. If the method does not
+                        define an info element, the method does not take any
+                        parameters.
+                    </remarks>
+				</documentation>
+			</annotation>
+			<sequence>
+				<element name="alternate-id" type="wc-types:string255nw">
+					<annotation>
+						<documentation>
+							<summary>
+                               The alternate id to associate.
+                            </summary>
+						</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

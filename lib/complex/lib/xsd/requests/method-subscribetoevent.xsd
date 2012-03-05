@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<schema
+    targetNamespace="urn:com.microsoft.wc.methods.SubscribeToEvent"
+    xmlns:wc-subscription="urn:com.microsoft.wc.subscription"
+    xmlns="http://www.w3.org/2001/XMLSchema" >
+
+    <!--
+
+    METHOD-SUBSCRIBETOEVENT.XSD
+    Microsoft HealthVault
+
+    Platform API: Info schema for SubscribeToEvent method
+
+    -->
+
+    <import
+    namespace="urn:com.microsoft.wc.subscription"
+    schemaLocation="subscription.xsd" />
+
+    <annotation>
+        <documentation>
+            <summary>
+                Creates an event subscription for the calling application.
+            </summary>
+            <method-visibility>Public</method-visibility>
+            <version>1</version>
+            <errors>
+                <error id="SUBSCRIPTION_LIMIT_EXCEEDED">
+                    If the application has reached is maximum allowed number
+                    of subscriptions.
+                </error>
+                <error id="SUBSCRIPTION_INVALID">
+                    If the subscription contains invalid data.
+                </error>
+            </errors>
+        </documentation>
+    </annotation>
+
+    <element name="info">
+        <complexType>
+            <sequence>
+                <element name="subscription" type="wc-subscription:Subscription">
+                    <annotation>
+                        <documentation>
+                            <summary>
+                                The subscription to create in HealthVault.    
+                            </summary>
+                            <remarks>
+                            </remarks>
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+  
+</schema>

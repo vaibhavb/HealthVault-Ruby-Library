@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/!svn/ver/3/trunk/lib/wc_data
+END
+init.rb
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/1/trunk/lib/wc_data/init.rb
+END
+raw_info_xml.rb
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1/trunk/lib/wc_data/raw_info_xml.rb
+END
+complex_type.rb
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/3/trunk/lib/wc_data/complex_type.rb
+END
+simple_type.rb
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/1/trunk/lib/wc_data/simple_type.rb
+END

@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<schema
+    targetNamespace="urn:com.microsoft.wc.notification"
+    xmlns:this="urn:com.microsoft.wc.notification"
+    xmlns:wc-types="urn:com.microsoft.wc.types"
+    xmlns="http://www.w3.org/2001/XMLSchema"
+>
+    <import
+        namespace="urn:com.microsoft.wc.types"
+        schemaLocation="types.xsd" />
+
+    <complexType name="Common">
+        <annotation>
+            <documentation>
+                <summary>
+                    Common information associated with every notification.
+                </summary>
+                <remarks>
+                    Notifications contain notification type specific information
+                    and information common to all notifications.  This element 
+                    contains the common information.
+                </remarks>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="subscription-id" type="wc-types:guid">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The unique identifier of the subscription generating
+                            this notification.
+                        </summary>
+                        <remarks>
+                            Each subscription is uniquely identified by this identifier.
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Thing">
+        <annotation>
+            <documentation>
+                <summary>
+                    A notification specific representation of a HealthVault Thing.
+                </summary>
+                <remarks>
+                    The notification Thing is not a complete HealthVault Thing.  Instead
+                    it provides enough information to obtain the complete HealthVault Thing data.
+                </remarks>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="thing-id" type="wc-types:guid">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The unique identifier of the HealthVault Thing.
+                        </summary>
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Things">
+        <annotation>
+            <documentation>
+                <summary>
+                    A collection of notification Things.
+                </summary>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="thing" 
+                     type="this:Thing" 
+                     minOccurs="1" 
+                     maxOccurs="unbounded">
+            </element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="RecordChangeNotification">
+        <annotation>
+            <documentation>
+                <summary>
+                    A notification that a Thing changed in a record.
+                </summary>
+                <remarks>
+                    RecordChangNotifications are generated whenever a Thing
+                    that matches the subscription filter has been created
+                    or modified.
+                </remarks>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="person-id" type="wc-types:guid">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The of the person whose thing(s) changed.
+                        </summary>
+                        <remarks>
+                            The person id may be directly used in offline calls
+                            to HealthVault obtaining the Thing data.
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="record-id" type="wc-types:guid">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The record id of the record associated with the
+                            changed Things.
+                        </summary>
+                        <remarks>
+                            The record id may be directly used in calls to
+                            HealthVault obtaining the Thing data.
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="things" type="this:Thing">
+            </element>
+        </sequence>
+    </complexType>
+
+    <complexType name="Notification">
+        <annotation>
+            <documentation>
+                <summary>
+                    A notification satisfying a subscription.
+                </summary>
+                <remarks>
+                </remarks>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="common" type="this:Common">
+            </element>
+            <choice>
+                <annotation>
+                    <documentation>
+                        <summary>
+                            Any information for a specicific type of notification
+                            is contained in one of the following notifications.
+                        </summary>
+                        <remarks>
+                            Any new notifications will be added here.  Notification
+                            receievers are expected to handle unknown elements.  The known 
+                            notifications are listed at the time of publication but
+                            is expected to grow.
+                        </remarks>
+                    </documentation>
+                </annotation>
+                <element name="record-change-notification"
+                         type="this:RecordChangeNotification">
+                </element>
+            </choice>
+        </sequence>
+    </complexType>
+
+    <complexType name="Notifications">
+        <annotation>
+            <documentation>
+                <summary>
+                    A list of notifcations.
+                </summary>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="notification" 
+                     type="this:Notification" 
+                     minOccurs="1" 
+                     maxOccurs="unbounded">
+                
+            </element>
+        </sequence>
+    </complexType>
+
+    <element name="notifications" type="this:Notifications">
+        <annotation>
+            <documentation>
+                <summary>
+                    The root element of a notification.
+                </summary>
+                <remarks>
+                    All notifications are contained within this element.
+                </remarks>
+            </documentation>
+        </annotation>
+    </element>
+
+</schema>

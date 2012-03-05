@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/1/trunk/lib/xsd/bootstrap
+END
+types.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/1/trunk/lib/xsd/bootstrap/types.xsd
+END
+response-getservicedefinition.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/1/trunk/lib/xsd/bootstrap/response-getservicedefinition.xsd
+END
+request.xsd
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/1/trunk/lib/xsd/bootstrap/request.xsd
+END

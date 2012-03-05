@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<schema
+    targetNamespace="urn:com.microsoft.wc.methods.response.NewApplicationCreationInfo"
+    xmlns:this="urn:com.microsoft.wc.methods.response.NewApplicationCreationInfo"
+    xmlns:wc-types="urn:com.microsoft.wc.types"
+    xmlns="http://www.w3.org/2001/XMLSchema" >
+
+    <!--
+
+        RESPONSE-NEWAPPLICATIONCREATIONINFO.XSD
+        Microsoft HealthVault
+
+        Platform API: Info schema for NewApplicationCreationInfo respponse.
+
+    -->
+
+    <import
+      namespace="urn:com.microsoft.wc.types"
+      schemaLocation="types.xsd" />
+ 
+    <annotation>
+        <documentation>
+            <summary>
+                Create information to register a new SODA application for an
+                existing master SODA application.
+            </summary>
+            <remarks>
+                This method returns an application identifier for the new
+                application, a shared-secret to authenticate the application,
+                and an app-token to create the application.
+
+                The app-token should be passed to Shell where a user can create
+                and authorize the new application.
+            </remarks>
+            <method-visibility>Public</method-visibility>
+            <errors>
+                <error id="INVALID_APP">
+                    If the parent application specified cannot be found, is
+                    not a soda master, or is inactive.
+                </error>
+            </errors>
+        </documentation>
+    </annotation>
+
+    <element name="info">
+        <complexType>
+            <annotation>
+                <documentation>
+                    <summary>
+                        Contains the response to the NewApplicationCreationInfo method
+                        call.
+                    </summary>
+                    <remarks>
+                    </remarks>
+                </documentation>
+            </annotation>
+            <sequence>
+                <element name="app-id" type="wc-types:guid">
+                    <annotation>
+                        <documentation>
+                            <summary>
+                                The unique identifier of the application.
+                            </summary>
+                            <remarks>
+                                This identifier identifies a single instance of
+                                the application.  Different soda instances will have
+                                different identifiers.
+                            </remarks>
+                        </documentation>
+                    </annotation>
+                </element>
+                <element name="shared-secret" type="wc-types:string64">
+                    <annotation>
+                        <documentation>
+                            <summary>
+                                The unique shared-secret for the application. 
+                            </summary>
+                            <remarks>
+                                The shared secret will be used to sign an authentication
+                                request with platform in the CreatAuthenticatedSessionToken 
+                                call.
+                            </remarks>
+                        </documentation>
+                    </annotation>
+                </element>
+                <element name="app-token" type="wc-types:string512">
+                   <annotation>
+                        <documentation>
+                            <summary>
+                                An opaque token used to create a new application.
+                            </summary>
+                            <remarks>
+                                This token should be passsed to HealthVault Shell 
+                                where the user can create a new instance of the application
+                                and authorize it for one or more records.
+
+                                The token may only be used once to create a single instance of
+                                the application.
+                            </remarks>
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+</schema>

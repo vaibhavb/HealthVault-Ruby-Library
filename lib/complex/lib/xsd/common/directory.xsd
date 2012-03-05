@@ -1,0 +1,863 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<schema
+    targetNamespace="urn:com.microsoft.wc.directory"
+    xmlns:this="urn:com.microsoft.wc.directory"
+    xmlns:wc-types="urn:com.microsoft.wc.types"
+    xmlns:wc-application="urn:com.microsoft.wc.application"
+    xmlns="http://www.w3.org/2001/XMLSchema" >
+
+    <!--
+
+    DIRECTORY.XSD
+    Microsoft HealthVault
+
+    Platform API: Representation of directory data
+
+    -->
+
+  <import
+      namespace="urn:com.microsoft.wc.types"
+      schemaLocation="types.xsd" />
+
+  <import
+    namespace="urn:com.microsoft.wc.application"
+    schemaLocation="application.xsd" />
+  
+  <annotation>
+        <documentation>
+            <summary>
+
+            </summary>
+
+            <remarks>
+
+            </remarks>
+        </documentation>
+    </annotation>
+
+  <!-- Directory item objects - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <complexType name="DirectoryCategories">
+    <annotation>
+      <documentation>
+        <summary>
+          Categories of the application or device directory item.
+        </summary>
+        <remarks>
+          An application or device can have multiple categories.
+        </remarks>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="category" type="wc-types:coded-value"
+               minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Category of the device or application directory.
+              This should be a codable-value and have a recommended vocabulary.
+            </summary>
+            <remarks>
+              Categories for application such as Consumer or Industry.
+              Categories for devices such as Blood Pressure Monitors, Blood Glucose Monitors, Weight Scales, ..etc
+            </remarks>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  
+  <complexType name="DirectoryDataProviderCategories">
+    <annotation>
+      <documentation>
+        <summary>
+          Categories for which the application or device directory item provides data.
+        </summary>
+        <remarks>
+          An application or device can be a provider of data for multiple categories.
+        </remarks>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="data-provider-category" type="wc-types:coded-value"
+               minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Category for which the device or application directory item provides data.
+              This should be a codable-value and have a recommended vocabulary.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  
+  <complexType name="CompanyInformation">
+    <sequence>
+      <element name="company-logo" type="this:Logo"
+                     minOccurs="0">
+        <annotation>
+          <documentation>
+            <summary>
+              Logo of the company.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="company-name" type="wc-types:CultureSpecificString255nw"
+               minOccurs="0" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              The name of the company.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="company-url" type="wc-types:CultureSpecificUrl"
+                     minOccurs="0" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Company url.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="MobilePlatformCollection">
+    <sequence>
+      <element name="mobile-platform" type="this:MobilePlatform" minOccurs="0" maxOccurs="unbounded" />
+    </sequence>
+  </complexType>
+
+  <complexType name="MobilePlatform">
+    <annotation>
+      <documentation>
+        <summary>
+          Any extra data in string-value pair format.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="app-url" type="this:AppUrl"/>
+    </sequence>
+    <attribute name="os" type="string" use="required"/>
+  </complexType>
+
+  <complexType name="AppUrl">
+    <annotation>
+      <documentation>
+        <summary>
+          The Uri for a Mobile App.
+        </summary>
+        <remarks>
+        </remarks>
+      </documentation>
+    </annotation>
+    <simpleContent>
+      <extension base="anyURI">
+        <!--<attribute ref="xml:lang" use="optional"/>-->
+      </extension>
+    </simpleContent>
+  </complexType>
+
+  <group name="DirectoryItemBase">
+    <annotation>
+      <documentation>
+        <summary>
+          Represents basic directory item information for HealthVault directory item.
+        </summary>
+
+        <remarks>
+          Common data shared between all directory entries.
+        </remarks>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="id" type="wc-types:guid" >
+        <annotation>
+          <documentation>
+            <summary>
+              Unique directory item id.  
+              For application directory, this is the same as application id.
+            </summary>
+            <remarks>
+              Each directory item is identified by this unique id.
+            </remarks>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="name" type="wc-types:CultureSpecificString255nw" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Name for the item of the item.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="company-information" type="this:CompanyInformation" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Information about the partner.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="categories" type="this:DirectoryCategories">
+        <annotation>
+          <documentation>
+            <summary>
+              Categories of the directory item.              
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="data-provider-categories" type="this:DirectoryDataProviderCategories" minOccurs="0">
+        <annotation>
+          <documentation>
+            <summary>
+              Data provider categories of the directory item.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="short-description" type="wc-types:CultureSpecificString1024nw" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            <summary>
+              A short description of the directory item.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="long-description" type="wc-types:CultureSpecificString"
+               minOccurs="0" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            <summary>
+              A long description of the directory item, encoded in a CDATA section.
+              Recommended maximum-length of long-description is 4096 characters.
+            </summary>
+            <remarks>
+              The long description is in HTML format.
+            </remarks>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="thing-types" type="wc-types:guids" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              List of HealthVault thing types the directory item uses.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="info-url" type="wc-types:CultureSpecificUrl" minOccurs="0" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Link to more information.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="facebooklike-url" type="wc-types:CultureSpecificUrl" 
+               minOccurs="0" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Facebook Like button URL info
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="mobile-platform-collection" 
+               type="this:MobilePlatformCollection" minOccurs="0">
+        <annotation>
+          <documentation>
+            <summary>
+              Collection of Mobile App Urls for various platforms
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="extension-items" type="wc-types:CultureSpecificExtensionItems" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Any extra data in string-value pair format.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="directory-state" type="positiveInteger" minOccurs="1" >
+        <annotation>
+          <documentation>
+            <summary>
+              State of the directory- should always be active which is 1.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </group>
+
+  <simpleType name="ScreenshotImage">
+    <annotation>
+      <documentation>
+        <summary>
+
+        </summary>
+
+        <remarks>
+
+        </remarks>
+      </documentation>
+    </annotation>
+    <restriction base="base64Binary">
+      <minLength value="3" />
+    </restriction>
+  </simpleType>
+
+  <complexType name="CultureSpecificScreenshotImage">
+    <annotation>
+      <documentation>
+        <summary>
+          The CultureSpecific... classes are intended for use with data that can
+          be localized for one or more languages and cultures.
+        </summary>
+        <remarks>
+          The CultureSpecific... classes should be upward compatible with the
+          base types.
+        </remarks>
+      </documentation>
+    </annotation>
+    <simpleContent>
+      <extension base="this:ScreenshotImage">
+        <attribute ref="xml:lang" use="optional">
+          <annotation>
+            <documentation>
+              <summary>
+                This represents the language and culture of the data in the
+                element, such as "en-us" or "fr-ca".
+              </summary>
+              <remarks>
+                In a typical use, an instance of an element with no xml:lang
+                attribute specified is treated as the default entry. Only one
+                default entry is typically allowed.
+              </remarks>
+            </documentation>
+          </annotation>
+        </attribute>
+      </extension>
+    </simpleContent>
+  </complexType>
+  
+  <complexType name="Screenshots">
+    <annotation>
+      <documentation>
+        <summary>
+          Collection of screenshots for the directory item.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="screenshot" type="this:Screenshot" minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Represents information for screenshot of the directory item.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="Screenshot">
+    <annotation>
+      <documentation>
+        <summary>
+          Represents information for screenshot of the directory item. 
+          The recommended maximum dimensions are 150px by 150px or size of 150K.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="alt-text" type="wc-types:CultureSpecificString255nw" minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              The alt-text associated with the screenshot.
+              Recommended maximum-length of alt-text is 255 characters.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="caption" type="wc-types:CultureSpecificString255nw" minOccurs="0" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              The caption associated with the screenshot.
+              Recommended maximum-length of caption is 255 characters.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="sequence" type="positiveInteger" minOccurs="1" >
+        <annotation>
+          <documentation>
+            <summary>
+              The sequence associated with the screenshot.
+              
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="image" type="this:CultureSpecificScreenshotImage" minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Base 64 encoded image string.
+              Recommended maximum-length of 150K or image size 150px by 150px.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="image-content-type" type="wc-types:string255nw" minOccurs="1" maxOccurs="1" >
+        <annotation>
+          <documentation>
+            <summary>
+              Content type of the image such as jpeg...etc
+            </summary>
+          </documentation>
+        </annotation>
+      </element>      
+    </sequence>
+  </complexType>
+
+  <complexType name="Logo">
+    <annotation>
+      <documentation>
+        <summary>
+          Represents information for logo of the directory item.
+          The recommended maximum dimensions are 150px by 150px or size of 60K.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="alt-text" type="wc-types:CultureSpecificString255nw" minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              The alt-text associated with the screenshot.
+              Recommended maximum-length of alt-text is 255 characters.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="image" type="this:CultureSpecificScreenshotImage" minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Base 64 encoded image string.
+              Recommended maximum-length of 150K or image size 150px by 150px.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="image-content-type" type="wc-types:string255nw">
+        <annotation>
+          <documentation>
+            <summary>
+              Content type of the image such as image/jpeg, image/tiff, ...etc
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="ApplicationDirectoryItem">
+    <sequence>
+      <group ref="this:DirectoryItemBase" />
+      <element name="is-popular" type="boolean" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Indicates whether the application is popular.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="application-logo" type="wc-application:AppLargeLogoInfo" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Large logo of the application.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="privacy-statement-url" type="wc-types:CultureSpecificUrl"
+               minOccurs="0" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            <summary>
+              Url to the privacy statement for the application.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="terms-of-use-url" type="wc-types:CultureSpecificUrl"
+               minOccurs="0" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            <summary>
+              Url to the terms of use statement for the application.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="connection-description" type="wc-types:CultureSpecificString"
+               minOccurs="0" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            <summary>
+              A description of an application and its connection process.
+            </summary>
+            <remark>
+              This description is displayed to the consumer to describe the type
+              data (prescription, labs, etc) that this connection will bring into
+              the record. It also describes the way the connection is made between
+              HealthVault and the application. Connection-descriptions for all
+              applications should be written in a consistent tone and style.
+            </remark>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="screenshots" type="this:Screenshots" minOccurs="0"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="DeviceDirectoryItem">
+    <sequence>
+      <group ref="this:DirectoryItemBase" />
+      <element name="models" type="this:DeviceModels" minOccurs="0" maxOccurs="1" >
+        <annotation>
+          <documentation>
+            <summary>
+              Model information for this device.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="WindowsClientInformation">
+    <annotation>
+      <documentation>
+        <summary>
+          the information required for windows clients in order to detect the device and install the appropriate driver for it.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="device-class" type="wc-types:guid" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              The device class guid.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="hardware-id" type="wc-types:stringnz">
+        <annotation>
+          <documentation>
+            <summary>
+              The hardware id.
+              Recommended maximum-length of hardware-id is 32 characters.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="installed-hardware-ids" type="this:InstalledHardwareIds">
+        <annotation>
+          <documentation>
+            <summary>
+              The list of installed hardware ids.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="auto-detect-id" type="wc-types:stringnz" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Identification for auto-detect.
+              Recommended maximum-length of auto-detect-id is 32 characters.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="driver-package-arguments" type="wc-types:stringnz" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Arguments to pass to the driver install package.
+              Recommended limit on driver-package-arguments is 2048 characters.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="driver-packages" type="this:DriverPackages">
+        <annotation>
+          <documentation>
+            <summary>
+              Driver packages for this device.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="InstalledHardwareIds">
+    <annotation>
+      <documentation>
+        <summary>
+          The list of installed hardware ids.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="installed-hardware-id" type="wc-types:string1024"
+               minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              The installed hardware ids.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="DeviceModels">
+    <annotation>
+      <documentation>
+        <summary>
+          The list of device models available.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="model" type="this:DeviceModel"
+               minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summary>
+              Model information.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="DeviceModel">
+    <annotation>
+      <documentation>
+        <summary>
+          The device model information.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="screenshots" type="this:Screenshots" minOccurs="0"/>
+      <element name="name" type="wc-types:stringz128" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summmary>
+              Model name.
+            </summmary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="display-name" type="wc-types:CultureSpecificString255nw"
+               minOccurs="0" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summmary>
+              Device model's friendly name.
+            </summmary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="purchase-url" type="wc-types:CultureSpecificUrl"
+               minOccurs="0" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            <summary>
+              Driver package download url.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="windows-client-information" type="this:WindowsClientInformation" minOccurs="0" maxOccurs="1" >
+        <annotation>
+          <documentation>
+            <summary>
+              Information about device that is compatible with HealthVault windows client.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="DriverPackages">
+    <annotation>
+      <documentation>
+        <summary>
+          The list of driver packages available for the device.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="package" type="this:DriverPackage" minOccurs="1" maxOccurs="unbounded" >
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="DriverPackage">
+    <annotation>
+      <documentation>
+        <summary>
+          Information on the driver package.
+        </summary>
+      </documentation>
+    </annotation>
+    <sequence>
+      <element name="platforms" type="this:Platforms">
+        <annotation>
+          <documentation>
+            <summmary>
+              Platforms supported by the driver.
+              This is a coded-value.
+            </summmary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="driver-package-url" type="wc-types:CultureSpecificUrl"
+               maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            <summary>
+              Driver package download url.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="default-arguments" type="wc-types:stringnz" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Default arguments to pass to the driver install package.
+              Recommended maximum-length of default-arguments is 2048 characters.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="instructions-url" type="wc-types:CultureSpecificUrl"
+               minOccurs="0" maxOccurs="unbounded">
+        <annotation>
+          <documentation>
+            <summary>
+              Special instructions url.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="validation-code" type="wc-types:string255nw"
+         minOccurs="0">
+        <annotation>
+          <documentation>
+            <summary>
+              Signer name of the package (digital signature signer name).
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+
+  <complexType name="Platforms">
+    <sequence>
+      <element name="platform" type="wc-types:coded-value" minOccurs="1" maxOccurs="unbounded" >
+        <annotation>
+          <documentation>
+            <summmary>
+              Platform supported by the driver.
+            </summmary>
+          </documentation>
+        </annotation>
+      </element>
+    </sequence>
+  </complexType>
+  <!-- Get request objects - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <complexType name="DirectoryFilterSpec">
+    <annotation>
+      <documentation>
+        <summary>
+          Schema for specifying filters on retrieving directory information.
+        </summary>
+        <remarks>
+          The list of directory entries can be queried through by specified filters. 
+          If not specified, everything will be returned.
+        </remarks>
+      </documentation>
+    </annotation>
+    <choice>
+      <element name="directory-item-ids" type="wc-types:guids" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Allows filtering based on a directory item id.
+            </summary>
+          </documentation>
+        </annotation>
+      </element>
+      <element name="last-client-refresh" type="dateTime" minOccurs="0" >
+        <annotation>
+          <documentation>
+            <summary>
+              Allows the caller to tell the server to return the entire set only if there have
+              been changes made to the thing types since the date/time specified.
+            </summary>
+            <remarks>
+              This parameter is typically used by callers who cache the results of
+              the response. You can timestamp the data returned and then poll for
+              directory item updates periodically and pass that timestamp in this parameter.
+              The server will determine if any updates have occurred since that
+              timestamp and only return results if there were any updates. 
+            </remarks>
+          </documentation>
+        </annotation>
+      </element>
+    </choice>
+  </complexType>
+    
+</schema>
+
+    

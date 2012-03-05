@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<schema
+    targetNamespace="urn:com.microsoft.wc.methods.UnsubscribeToEvent"
+    xmlns:wc-types="urn:com.microsoft.wc.types"
+    xmlns="http://www.w3.org/2001/XMLSchema" >
+
+    <!--
+
+        METHOD-UNSUBSCRIBETOEVENT.XSD
+        Microsoft HealthVault
+
+        Platform API: Info schema for UnsubscribeToEvent method
+
+    -->
+  
+    <import
+        namespace="urn:com.microsoft.wc.types"
+        schemaLocation="types.xsd" />
+
+    <annotation>
+        <documentation>
+            <summary>
+                Removes the subscription identified by the supplied id.
+            </summary>
+            <method-visibility>Public</method-visibility>
+            <version>1</version>
+            <errors>
+                <error id="SUBSCRIPTION_NOT_FOUND">
+                    If the subscription cannot be found for supplied
+                    subscription identifier.
+                </error>
+            </errors>
+        </documentation>
+    </annotation>
+ 
+    <element name="info">
+        <complexType>
+            <sequence>
+                <element name="subscription-id" type="wc-types:guid">
+                    <annotation>
+                        <documentation>
+                            <summary>
+                                The identifier of the subscription to remove.
+                            </summary>
+                            <remarks>
+                            </remarks>
+                        </documentation>
+                    </annotation>
+                </element>
+            </sequence>
+        </complexType>
+    </element>
+
+</schema>

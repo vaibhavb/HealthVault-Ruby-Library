@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/6/trunk/bin/certs
+END
+helloWorld.pem
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/!svn/ver/6/trunk/bin/certs/helloWorld.pem
+END
+HelloWorld-SDK_ID-05a059c9-c309-46af-9b86-b06d42510550.pfx
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/!svn/ver/6/trunk/bin/certs/HelloWorld-SDK_ID-05a059c9-c309-46af-9b86-b06d42510550.pfx
+END

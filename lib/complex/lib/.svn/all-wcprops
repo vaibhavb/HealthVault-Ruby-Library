@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 26
+/svn/!svn/ver/15/trunk/lib
+END
+response.rb
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/!svn/ver/15/trunk/lib/response.rb
+END
+connection.rb
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/!svn/ver/2/trunk/lib/connection.rb
+END
+healthvault.rb
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/2/trunk/lib/healthvault.rb
+END
+application.rb
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/!svn/ver/8/trunk/lib/application.rb
+END
+config.rb
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/8/trunk/lib/config.rb
+END
+request.rb
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/2/trunk/lib/request.rb
+END

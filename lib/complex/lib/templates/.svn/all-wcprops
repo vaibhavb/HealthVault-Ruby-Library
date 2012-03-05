@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/7/trunk/lib/templates
+END
+complex_type_template.erb
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/3/trunk/lib/templates/complex_type_template.erb
+END
+simple_type_template.erb
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/4/trunk/lib/templates/simple_type_template.erb
+END
+thing_class_extension_template.erb
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/7/trunk/lib/templates/thing_class_extension_template.erb
+END

@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- Copyright (c) Microsoft Corporation. All rights reserved. -->
+<schema xmlns:wc-types="urn:com.microsoft.wc.types" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:this="urn:com.microsoft.wc.methods.response.GetPersonAndRecordForAlternateId" targetNamespace="urn:com.microsoft.wc.methods.response.GetPersonAndRecordForAlternateId">
+	<!--
+
+        RESPONSE-GETPERSONANDRECORDFORALTERNATEID.XSD
+        Microsoft HealthVault
+
+        Platform API: Info schema for GetPersonAndRecordForAlternateId method response
+
+    -->
+	<import namespace="urn:com.microsoft.wc.types" schemaLocation="types.xsd"/>
+	<annotation>
+		<documentation>
+			<summary>
+            </summary>
+			<method-visibility>Public</method-visibility>
+			<errors>
+				<error id="AlternateIdNotAssociated">
+					The alternate id is not currently associated.
+                </error>
+			</errors>
+		</documentation>
+	</annotation>
+	<!-- GetPersonAndRecordForAlternateId - - - - - -  - - - - - - - - - - - - - - -->
+	<element name="info">
+		<complexType>
+			<annotation>
+				<documentation>
+					<summary>
+                        The element of the response that contains the method
+                        specific return value(s).
+                    </summary>
+					<remarks>
+                        All response schemas contain the info element which
+                        contain the return value of the method. If the method
+                        does not define an info element, the method has no
+                        return value.
+                    </remarks>
+				</documentation>
+			</annotation>
+			<sequence>
+				<element name="person-info" type="wc-types:PersonInfo">
+					<annotation>
+						<documentation>
+							<summary>
+                                Information about the person and record associated with the alternate id.
+                            </summary>
+						</documentation>
+					</annotation>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schema xmlns:this="urn:com.microsoft.wc.subscription" xmlns:wc-types="urn:com.microsoft.wc.types" xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:com.microsoft.wc.subscription">
+    <import namespace="urn:com.microsoft.wc.types" schemaLocation="types.xsd"/>
+    <complexType name="HttpNotificationChannel">
+        <sequence>
+            <element name="url" type="anyURI">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The url where HealthVault will send the notification. The url must start with https.
+                        </summary>
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="NotificationChannel">
+        <sequence>
+            <choice>
+                <element name="http-notification-channel" type="this:HttpNotificationChannel"/>
+            </choice>
+        </sequence>
+    </complexType>
+    <simpleType name="EventingKeyVersionId">
+        <annotation>
+            <documentation>
+                <summary>
+                    Type representing the notification key version id. 
+                </summary>
+                <remarks>
+                    The valid characters are characters in the range a to z, characters
+                    in the range A-Z, characters in the range 0-9 and the hyphen character, 
+                    '-'. The minimum length in characters is 1 and the maximum is 50.
+                </remarks>
+            </documentation>
+        </annotation>
+        <restriction base="string">
+            <minLength value="1"/>
+            <maxLength value="50"/>
+            <pattern value="^[a-zA-Z0-9-]*$"/>
+        </restriction>
+    </simpleType>
+    <complexType name="HVEventingSharedKey">
+        <annotation>
+            <documentation>
+                <summary>
+                    Authentication of notification using a shared key
+                </summary>
+                <remark>
+                    The notification authorization information is sent in the Authorization
+                    header of the notification http request, in the format:
+                    
+                        HVEventingSharedKey [subscription-id]:[key-version]:[hmac]
+                        
+                    To verify the notification, compute the hmac using the key that was specified in
+                    the subscription and compare it to the hmac passed in the request. 
+                </remark>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="notification-key" type="wc-types:string128nw">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The base64 encoded key bytes.
+                        </summary>
+                        <remarks>
+                            The length of the key must be 64 bytes before any base64
+                            encoding is applied. The key is used by the HealthVault service
+                            as the key input to the HMACSHA256 algorithm. The hash that is
+                            output by the algorithm is sent with notifications that HealthVault
+                            delivers to the subscription's notification channel.
+                            
+                            If a key is changed, the version key id should also be changed so that the 
+                            notification handler can support both keys during the changeover period.
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="notification-key-version-id" type="this:EventingKeyVersionId">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            A string representing the version of the key.
+                        </summary>
+                        <remarks>
+                            Subscriptions can be updated with new notification keys using the
+                            UpdateEventSubscription method. When an update is made to a
+                            subscription, for a period of time, notification deliveries
+                            by the HealthVault service for the subscription, may use either
+                            the old key or the updated key to calculate the notification
+                            payload HMAC. The key version id is also sent with the notification,
+                            allowing the app to determine which key was used to calculate
+                            the notification payload HMAC.
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="NotificationAuthenticationInfo">
+        <sequence>
+            <choice>
+                <element name="hv-eventing-shared-key" type="this:HVEventingSharedKey"/>
+            </choice>
+        </sequence>
+    </complexType>
+    <complexType name="Common">
+        <annotation>
+            <documentation>
+                <summary>
+                    Information that is common to all subscriptions.
+                </summary>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="id" type="wc-types:guid" minOccurs="0">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The unique indentifier of this subscription.
+                        </summary>
+                        <remarks>
+                            A notification handler that handles multiple subscriptions can use
+                            this identifier to tell them apart. 
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="notification-authentication-info" type="this:NotificationAuthenticationInfo">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The information used to validate the source of notifications.
+                        </summary>
+                        <remarks>
+                            For notification channels where the HealthVault service pushes 
+                            notifications to an application's end-point (ie. an HTTPS 
+                            notification channel), this information can be used by the 
+                            application to validate that the incoming notification was sent by the 
+                            HealthVault service.
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+            <element name="notification-channel" type="this:NotificationChannel">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The destination of the notification.
+                        </summary>
+                        <remarks>
+                            HealthVault will send all notifications for this subscription using
+                            this channel information. 
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="TypeIds">
+        <annotation>
+            <documentation>
+                <summary>
+                    A collection of thing type ids in HealthVault.
+                </summary>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="type-id" type="wc-types:guid" maxOccurs="unbounded">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            A thing type id in HealthVault.
+                        </summary>
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="RecordItemChangedEventFilter">
+        <annotation>
+            <documentation>
+                <summary>
+                    Defines the criteria when the event will fire.
+                </summary>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="type-ids" type="this:TypeIds">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            The type ids for which notifications are enabled on this subscription.
+                        </summary>
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="RecordItemChangedEventFilters">
+        <annotation>
+            <documentation>
+                <summary>
+                    A container element for a list of filters. 
+                </summary>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="filter" type="this:RecordItemChangedEventFilter" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+    <complexType name="RecordItemChangedEvent">
+        <annotation>
+            <documentation>
+                <summary>
+                    A notification when an item in a user's record changes.
+                </summary>
+                <remarks>
+                    The subscription defines the thing types that an application is interested in, and 
+                    any change to one of those types (creation/update/deletion) in an authorized user's record 
+                    will result in a notification being sent.
+                    
+                    HealthVault does not send notifications for items already in a user's record when the application is
+                    authorized. 
+                </remarks>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="filters" type="this:RecordItemChangedEventFilters">
+                <annotation>
+                    <documentation>
+                        <summary>
+                            List of filters that define when a notification is sent. 
+                        </summary>
+                        <remarks>
+                            If a changed thing matches any of these filters, a notification
+                            will be sent. 
+                        </remarks>
+                    </documentation>
+                </annotation>
+            </element>
+        </sequence>
+    </complexType>
+    <complexType name="Subscription">
+        <annotation>
+            <documentation>
+                <summary>
+                    Defines an event subscription.
+                </summary>
+                <remarks>
+                    A HealthVault application can subscribe to be notified when specific events take place. 
+                    
+                    For example, a notification could be sent whenever a record the application is authorized to see
+                    has a new Medication item placed into it. 
+                    
+                    This subscription is persistent until the application removes it. 
+                </remarks>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="common" type="this:Common"/>
+            <choice>
+                <element name="record-item-changed-event" type="this:RecordItemChangedEvent"/>
+            </choice>
+        </sequence>
+    </complexType>
+    <complexType name="Subscriptions">
+        <annotation>
+            <documentation>
+                <summary>
+                    A container element for a list of subscriptions.
+                </summary>
+            </documentation>
+        </annotation>
+        <sequence>
+            <element name="subscription" type="this:Subscription" minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+    </complexType>
+</schema>
